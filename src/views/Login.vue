@@ -23,12 +23,13 @@
             <input type="submit" class="form-submit" value="Login">
         </form>
         <p class="msg">¿No tienes una cuenta?
-            <router-link to="{ name: 'Register' }">Regístrate</router-link></p>
+            <router-link :to="{ name: 'Register' }">Regístrate</router-link></p>
     </div>
 </template>
 
 <script>
 import auth from "@/logic/auth";
+
 export default {
 
   name: 'Login',
@@ -43,6 +44,10 @@ export default {
     async login() {
         try {
             await auth.login(this.email, this.password);
+            const user = {
+                email: this.email
+            };
+            auth.setUserLogged(user);
             this.$router.push({ name: 'Home' });
         } catch (error) {
             this.error = true;

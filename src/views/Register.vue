@@ -48,6 +48,10 @@ export default {
     async register() {
         try {
             await auth.register(this.email, this.password);
+            const user = {
+                email: this.email
+            };
+            auth.setUserLogged(user);
             this.$router.push({ name: 'Home' })
         } catch (error) {
             console.log(error);
