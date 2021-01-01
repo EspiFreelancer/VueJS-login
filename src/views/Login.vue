@@ -19,13 +19,16 @@
                 id="password"
                 placeholder="Password"
             >
-            <p v-if="error" class="error">Has introducido mal el mail o la contraseña.</p>
+            <p v-if="error" class="error">Has introducido mal el email o la contraseña.</p>
             <input type="submit" class="form-submit" value="Login">
         </form>
+        <p class="msg">¿No tienes una cuenta?
+            <router-link to="{ name: 'Register' }">Regístrate</router-link></p>
     </div>
 </template>
 
 <script>
+import auth from "@/logic/auth";
 export default {
 
   name: 'Login',
@@ -37,9 +40,13 @@ export default {
     }),
 
   methods: {
-    login() {
-        console.log(this.email);
-        console.log(this.password);
+    async login() {
+        try {
+            await auth.login(this.email, this.password);
+            this.$router.push({ name: 'Home' });
+        } catch (error) {
+            this.error = true;
+        }
     }
 
   }
